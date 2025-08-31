@@ -14,14 +14,17 @@
         </header>
 
         <div class="link-creator">
-            <input type="url" id="originalUrl" placeholder="Введите оригинальную ссылку">
-            <input type="text" id="customPath" placeholder="Придумайте название">
+            <input type="url" id="originalUrl" placeholder="Введите оригинальную ссылку (например, https://chat.deepseek.com/)">
+            <input type="text" id="customPath" placeholder="Придумайте название (например, Дипсик)">
             <button onclick="createLink()">Создать ссылку</button>
         </div>
 
         <div class="result" id="result" style="display: none;">
             <p>Ваша ссылка:</p>
-            <a id="shortLink" target="_blank"></a>
+            <div class="link-container">
+                <a id="shortLink" target="_blank"></a>
+                <button onclick="copyLink()" class="copy-btn">Копировать</button>
+            </div>
         </div>
 
         <div class="links-list">
@@ -30,82 +33,6 @@
         </div>
     </div>
 
-    <script>
-        const baseUrl = window.location.origin + window.location.pathname;
-        
-        function createLink() {
-            const originalUrl = document.getElementById('originalUrl').value;
-            const customPath = document.getElementById('customPath').value;
-
-            if (!isValidUrl(originalUrl)) {
-                alert('Введите корректный URL');
-                return;
-            }
-
-            if (!customPath.match(/^[a-zA-Z0-9_-]+$/)) {
-                alert('Можно использовать только буквы, цифры, дефисы и подчёркивания');
-                return;
-            }
-
-            const linkData = {
-                original: originalUrl,
-                created: new Date().toLocaleString()
-            };
-
-            localStorage.setItem(customPath, JSON.stringify(linkData));
-            displayLink(customPath);
-            updateLinksList();
-        }
-
-        function isValidUrl(url) {
-            try {
-                new URL(url);
-                return true;
-            } catch {
-                return false;
-            }
-        }
-
-        function displayLink(path) {
-            const linkElement = document.getElementById('shortLink');
-            linkElement.href = baseUrl + '#' + path;
-            linkElement.textContent = baseUrl + '#' + path;
-            document.getElementById('result').style.display = 'block';
-        }
-
-        function updateLinksList() {
-            const list = document.getElementById('linksList');
-            list.innerHTML = '';
-            
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key === null) continue;
-
-                const data = JSON.parse(localStorage.getItem(key));
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `
-                    <a href="${baseUrl}#${key}" target="_blank">${baseUrl}#${key}</a>
-                    → ${data.original}
-                    <small>(${data.created})</small>
-                `;
-                list.appendChild(listItem);
-            }
-        }
-
-        // Проверка хэша при загрузке
-        window.addEventListener('load', () => {
-            if (window.location.hash) {
-                const path = window.location.hash.substring(1);
-                const data = JSON.parse(localStorage.getItem(path));
-                
-                if (data) {
-                    window.location.href = data.original;
-                    return;
-                }
-            }
-            
-            updateLinksList();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
