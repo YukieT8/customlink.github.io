@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор ссылок</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Генератор кастомных ссылок</h1>
+        <div class="input-group">
+            <input type="url" id="originalUrl" placeholder="https://example.com/">
+            <input type="text" id="customWord" placeholder="Прикол">
+            <button onclick="generateLink()">Создать ссылку</button>
+        </div>
+        <div id="result" class="hidden">
+            <a id="generatedLink" target="_blank">Перейти по ссылке</a>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
