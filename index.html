@@ -3,21 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Генератор ссылок</title>
+    <title>CustomLink - Создайте свою ссылку</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Генератор кастомных ссылок</h1>
-        <div class="input-group">
-            <input type="url" id="originalUrl" placeholder="https://example.com/">
-            <input type="text" id="customWord" placeholder="Прикол">
-            <button onclick="generateLink()">Создать ссылку</button>
+        <header>
+            <h1>CustomLink</h1>
+            <p>Создайте красивые кастомные ссылки (только для некоммерческого использования)</p>
+        </header>
+
+        <div class="link-creator">
+            <input type="url" id="originalUrl" placeholder="Введите оригинальную ссылку">
+            <input type="text" id="customPath" placeholder="Придумайте название">
+            <button onclick="createLink()">Создать ссылку</button>
         </div>
-        <div id="result" class="hidden">
-            <a id="generatedLink" target="_blank">Перейти по ссылке</a>
+
+        <div class="result" id="result" style="display: none;">
+            <p>Ваша ссылка:</p>
+            <a id="shortLink" target="_blank"></a>
+        </div>
+
+        <div class="links-list">
+            <h2>Созданные ссылки</h2>
+            <ul id="linksList"></ul>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        const baseUrl = window.location.origin + window.location.pathname;
+        
+        function createLink() {
+            const originalUrl = document.getElementById('originalUrl').value;
+            const customPath = document.getElementById('customPath').value;
+
+            if (!isValidUrl(originalUrl)) {
+                alert('Введите корректный URL');
+                return;
+            }
+
+            if (!customPath.match(/^[a-zA-Z0-9_-]+$/)) {
+                alert('Можно использовать только буквы, цифры, дефисы и подчёркивания');
+                return;
+            }
+
+            const linkData = {
+                original: originalUrl,
+                created: new Date().toLocaleString()
+            };
+
+            localStorage.setItem(customPath, JSON.stringify(linkData));
+            displayLink(customPath);
+            updateLinksList();
+        }
+
+        function isValidUrl(url) {
+            try {
+                new URL(url);
+                return true;
+            } catch {
+                return false;
+            }
+        }
+
+        function displayLink(path) {
+            const linkElement = document.getElementById('shortLink');
+            linkElement.href = baseUrl + '#' + path;
+            linkElement.textContent = baseUrl + '#' + path;
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function updateLinksList() {
+            const list = document.getElementById('linksList');
+            list.innerHTML = '';
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key === null) continue;
+
+                const data = JSON.parse(localStorage.getItem(key));
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <a href="${baseUrl}#${key}" target="_blank">${baseUrl}#${key}</a>
+                    → ${data.original}
+                    <small>(${data.created})</small>
+                `;
+                list.appendChild(listItem);
+            }
+        }
+
+        // Проверка хэша при загрузке
+        window.addEventListener('load', () => {
+            if (window.location.hash) {
+                const path = window.location.hash.substring(1);
+                const data = JSON.parse(localStorage.getItem(path));
+                
+                if (data) {
+                    window.location.href = data.original;
+                    return;
+                }
+            }
+            
+            updateLinksList();
+        });
+    </script>
 </body>
 </html>
