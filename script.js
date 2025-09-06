@@ -1,13 +1,13 @@
 // Конфигурация Firebase
 const firebaseConfig = {
-    // ЗАМЕНИТЕ ЭТИ ДАННЫЕ НА ВАШИ ИЗ КОНСОЛИ FIREBASE
-    apiKey: "ВАШ_API_KEY",
-    authDomain: "ВАШ_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://ВАШ_PROJECT_ID-default-rtdb.firebaseio.com",
-    projectId: "ВАШ_PROJECT_ID",
-    storageBucket: "ВАШ_PROJECT_ID.appspot.com",
-    messagingSenderId: "ВАШ_SENDER_ID",
-    appId: "ВАШ_APP_ID"
+  apiKey: "AIzaSyA-AsI3pxVWlD9sKTDK8cAzQegt25_wcsA",
+  authDomain: "customlink-4ac3e.firebaseapp.com",
+  databaseURL: "https://customlink-4ac3e-default-rtdb.firebaseio.com",
+  projectId: "customlink-4ac3e",
+  storageBucket: "customlink-4ac3e.firebasestorage.app",
+  messagingSenderId: "160166926307",
+  appId: "1:160166926307:web:bf0ffe10440a5d41c0b2d6",
+  measurementId: "G-RT3NB04WNT"
 };
 
 // Инициализация Firebase
