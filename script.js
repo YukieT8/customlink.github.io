@@ -91,7 +91,7 @@ function displayLink(path) {
     const linkElement = document.getElementById('shortLink');
     const resultDiv = document.getElementById('result');
     
-    // Формируем ссылку с путем
+    // Формируем ссылку с параметром
     const fullLink = `${baseUrl}?link=${encodeURIComponent(path)}`;
     linkElement.href = fullLink;
     linkElement.textContent = fullLink;
@@ -182,9 +182,13 @@ async function handleCustomLink() {
                 // Перенаправляем на оригинальный URL
                 window.location.href = data.original;
                 return;
+            } else {
+                // Если ссылка не найдена, показываем сообщение
+                alert('Ссылка не найдена!');
             }
         } catch (error) {
             console.error('Ошибка при обработке ссылки:', error);
+            alert('Произошла ошибка при обработке ссылки');
         }
     }
     
