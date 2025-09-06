@@ -183,6 +183,12 @@ button:active {
     padding: 20px;
 }
 
+.loading {
+    text-align: center;
+    color: #3498db;
+    padding: 20px;
+}
+
 @media (max-width: 600px) {
     .container {
         padding: 20px;
@@ -198,5 +204,15 @@ button:active {
     
     .link-container {
         flex-direction: column;
+    }
+    
+    .links-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .delete-btn {
+        align-self: flex-end;
     }
 }
